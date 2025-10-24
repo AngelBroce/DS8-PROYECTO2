@@ -14,6 +14,7 @@ Public Class FormCheques
 
     Private cheques As New List(Of Cheque)()
     Private nextId As Integer = 1
+    Private nextChequeNumber As Integer = 1
 
     Private Sub FormCheques_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Inicializar controles y cargar datos de ejemplo
@@ -64,15 +65,92 @@ Public Class FormCheques
         Next
     End Sub
 
-    ' Conversor muy simple de número a texto (soporta hasta millones, sin decimales detallados)
-    Private Function NumeroALetras(value As Decimal) As String
+    ' Conversor completo de número a letras en dólares (hasta 99,999)
+    Private Function NumeroALetrasCompleto(value As Decimal) As String
         Dim entero = Math.Truncate(value)
-        Dim decimales = (value - entero)
-        Dim texto As String = entero.ToString() & " bolivianos" ' adaptalo según moneda
-        If decimales > 0 Then
-            texto &= String.Format(" con {0:00}/100", CInt(Math.Round(decimales * 100)))
+        Dim decimales = Math.Round((value - entero) * 100)
+        
+        ' Validar rango (0 a 99,999)
+        If entero < 0 OrElse entero > 99999 Then
+            Return "Cantidad fuera de rango"
         End If
-        Return texto
+        
+        Dim unidades() As String = {"", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"}
+        Dim dieces() As String = {"", "", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"}
+        Dim diez_diecinueve() As String = {"diez", "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve"}
+        Dim centenas() As String = {"", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"}
+        
+        Dim resultado As String = ""
+        
+        ' Procesar miles
+        Dim miles As Integer = CInt(entero \ 1000)
+        If miles > 0 Then
+            If miles = 1 Then
+                resultado &= "mil"
+            Else
+                resultado &= ConvertirCentenas(miles, unidades, dieces, diez_diecinueve, centenas) & " mil"
+            End If
+        End If
+        
+        ' Procesar unidades, decenas y centenas restantes
+        Dim resto As Integer = CInt(entero Mod 1000)
+        If resto > 0 Then
+            If resultado <> "" Then resultado &= " "
+            resultado &= ConvertirCentenas(resto, unidades, dieces, diez_diecinueve, centenas)
+        End If
+        
+        ' Si es cero
+        If entero = 0 Then
+            resultado = "cero"
+        End If
+        
+        ' Capitalizar primera letra
+        If resultado.Length > 0 Then
+            resultado = Char.ToUpper(resultado(0)) & resultado.Substring(1)
+        End If
+        
+        ' Agregar centavos en dólares
+        resultado &= String.Format(" dólares con {0:00}/100", CInt(decimales))
+        
+        Return resultado
+    End Function
+    
+    Private Function ConvertirCentenas(numero As Integer, unidades() As String, dieces() As String, diez_diecinueve() As String, centenas() As String) As String
+        Dim resultado As String = ""
+        
+        ' Centenas
+        Dim cent As Integer = numero \ 100
+        If cent > 0 Then
+            resultado = centenas(cent)
+        End If
+        
+        ' Decenas y unidades
+        Dim resto As Integer = numero Mod 100
+        If resto > 0 Then
+            If resultado <> "" Then resultado &= " "
+            
+            If resto < 10 Then
+                resultado &= unidades(resto)
+            ElseIf resto < 20 Then
+                resultado &= diez_diecinueve(resto - 10)
+            Else
+                Dim dec As Integer = resto \ 10
+                Dim unid As Integer = resto Mod 10
+                resultado &= dieces(dec)
+                If unid > 0 Then
+                    resultado &= " y " & unidades(unid)
+                End If
+            End If
+        End If
+        
+        Return resultado
+    End Function
+    
+    ' Generar número de cheque con formato 0000001
+    Private Function GenerarNumeroCheque() As String
+        Dim numero As String = nextChequeNumber.ToString("0000000")
+        nextChequeNumber += 1
+        Return numero
     End Function
 
     ' Handlers del MenuStrip
@@ -98,11 +176,20 @@ Public Class FormCheques
 
     ' Botones del formulario
     Private Sub btnNuevo_Click(sender As Object, e As EventArgs) Handles btnNuevo.Click
-        ' Limpiar campos
+        ' Generar número de cheque automáticamente
+        txtNumero.Text = GenerarNumeroCheque()
+        txtNumero.ReadOnly = True
+        
+        ' Limpiar otros campos
         For Each ctrl In Me.Controls
-            If TypeOf ctrl Is TextBox Then DirectCast(ctrl, TextBox).Text = String.Empty
+            If TypeOf ctrl Is TextBox AndAlso ctrl.Name <> "txtNumero" Then
+                DirectCast(ctrl, TextBox).Text = String.Empty
+            End If
         Next
+        
         dtpFecha.Value = DateTime.Today
+        cmbProveedor.SelectedIndex = 0
+        cmbObjeto.SelectedIndex = 0
     End Sub
 
     Private Sub btnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
@@ -134,7 +221,7 @@ Public Class FormCheques
             .Fecha = If(dtp IsNot Nothing, dtp.Value, DateTime.Today),
             .Proveedor = If(cmbProv.SelectedItem IsNot Nothing, cmbProv.SelectedItem.ToString(), ""),
             .Monto = montoVal,
-            .MontoLetras = If(txtMontoLetras IsNot Nothing, txtMontoLetras.Text, NumeroALetras(montoVal)),
+            .MontoLetras = If(txtMontoLetras IsNot Nothing, txtMontoLetras.Text, NumeroALetrasCompleto(montoVal)),
             .Detalle = If(txtDetalle IsNot Nothing, txtDetalle.Text, ""),
             .Objeto = If(cmbObj IsNot Nothing AndAlso cmbObj.SelectedItem IsNot Nothing, cmbObj.SelectedItem.ToString(), "")
         }
@@ -178,7 +265,7 @@ Public Class FormCheques
         Dim montoVal As Decimal = 0
         If Decimal.TryParse(txtMonto.Text, montoVal) Then
             Dim txtLetras = Me.Controls.OfType(Of TextBox)().Where(Function(t) t.ReadOnly).FirstOrDefault()
-            If txtLetras IsNot Nothing Then txtLetras.Text = NumeroALetras(montoVal)
+            If txtLetras IsNot Nothing Then txtLetras.Text = NumeroALetrasCompleto(montoVal)
         End If
     End Sub
     
