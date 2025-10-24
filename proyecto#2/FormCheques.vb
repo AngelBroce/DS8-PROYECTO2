@@ -97,7 +97,7 @@ Public Class FormCheques
     End Sub
 
     ' Botones del formulario
-    Private Sub btnNuevo_Click(sender As Object, e As EventArgs)
+    Private Sub btnNuevo_Click(sender As Object, e As EventArgs) Handles btnNuevo.Click
         ' Limpiar campos
         For Each ctrl In Me.Controls
             If TypeOf ctrl Is TextBox Then DirectCast(ctrl, TextBox).Text = String.Empty
@@ -105,7 +105,7 @@ Public Class FormCheques
         dtpFecha.Value = DateTime.Today
     End Sub
 
-    Private Sub btnGuardar_Click(sender As Object, e As EventArgs)
+    Private Sub btnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
         Try
             Dim numero = Me.Controls.OfType(Of TextBox)().FirstOrDefault(Function(t) t.Location = New Point(20, 65)).Text
         Catch ex As Exception
@@ -144,7 +144,7 @@ Public Class FormCheques
         MessageBox.Show("Cheque registrado.")
     End Sub
 
-    Private Sub btnAnular_Click(sender As Object, e As EventArgs)
+    Private Sub btnAnular_Click(sender As Object, e As EventArgs) Handles btnAnular.Click
         Dim dgv As DataGridView = Me.Controls.OfType(Of DataGridView)().FirstOrDefault()
         If dgv Is Nothing OrElse dgv.SelectedRows.Count = 0 Then
             MessageBox.Show("Seleccione un cheque para anular.")
@@ -163,7 +163,7 @@ Public Class FormCheques
         End Using
     End Sub
 
-    Private Sub btnAgregarProveedor_Click(sender As Object, e As EventArgs)
+    Private Sub btnAgregarProveedor_Click(sender As Object, e As EventArgs) Handles btnAgregarProveedor.Click
         Using f As New FormProveedor()
             If f.ShowDialog() = DialogResult.OK Then
                 ' Recargar proveedores (en producción recargar de la BD)
@@ -173,7 +173,7 @@ Public Class FormCheques
     End Sub
 
     ' Actualizar monto en letras al cambiar monto
-    Private Sub txtMonto_TextChanged(sender As Object, e As EventArgs)
+    Private Sub txtMonto_TextChanged(sender As Object, e As EventArgs) Handles txtMonto.TextChanged
         Dim txtMonto = DirectCast(sender, TextBox)
         Dim montoVal As Decimal = 0
         If Decimal.TryParse(txtMonto.Text, montoVal) Then
@@ -181,6 +181,5 @@ Public Class FormCheques
             If txtLetras IsNot Nothing Then txtLetras.Text = NumeroALetras(montoVal)
         End If
     End Sub
-
-End Class
+    
 End Class
