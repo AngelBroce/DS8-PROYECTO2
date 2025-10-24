@@ -180,7 +180,7 @@ Partial Class FormCheques
         ' 
         cmbObjeto.Location = New Point(20, 185)
         cmbObjeto.Name = "cmbObjeto"
-        cmbObjeto.Size = New Size(200, 28)
+        cmbObjeto.Size = New Size(478, 28)
         cmbObjeto.TabIndex = 8
         ' 
         ' txtMonto

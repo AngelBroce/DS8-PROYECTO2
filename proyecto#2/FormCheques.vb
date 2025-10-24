@@ -1,3 +1,5 @@
+Imports MySql.Data.MySqlClient
+
 Public Class FormCheques
     ' Modelo sencillo de cheque (en memoria)
     Private Class Cheque
@@ -21,6 +23,10 @@ Public Class FormCheques
         LoadProveedores()
         LoadObjetos()
         InitializeDataGrid()
+        
+        ' Generar el primer número de cheque automáticamente
+        txtNumero.Text = GenerarNumeroCheque()
+        txtNumero.ReadOnly = True
     End Sub
 
     Private Sub LoadProveedores()
@@ -82,26 +88,26 @@ Public Class FormCheques
         
         Dim resultado As String = ""
         
-        ' Procesar miles
-        Dim miles As Integer = CInt(entero \ 1000)
-        If miles > 0 Then
-            If miles = 1 Then
-                resultado &= "mil"
-            Else
-                resultado &= ConvertirCentenas(miles, unidades, dieces, diez_diecinueve, centenas) & " mil"
-            End If
-        End If
-        
-        ' Procesar unidades, decenas y centenas restantes
-        Dim resto As Integer = CInt(entero Mod 1000)
-        If resto > 0 Then
-            If resultado <> "" Then resultado &= " "
-            resultado &= ConvertirCentenas(resto, unidades, dieces, diez_diecinueve, centenas)
-        End If
-        
         ' Si es cero
         If entero = 0 Then
             resultado = "cero"
+        Else
+            ' Procesar miles
+            Dim miles As Integer = CInt(entero \ 1000)
+            If miles > 0 Then
+                If miles = 1 Then
+                    resultado &= "mil"
+                Else
+                    resultado &= ConvertirCentenas(miles, unidades, dieces, diez_diecinueve, centenas) & " mil"
+                End If
+            End If
+            
+            ' Procesar unidades, decenas y centenas restantes (0-999)
+            Dim resto As Integer = CInt(entero Mod 1000)
+            If resto > 0 Then
+                If resultado <> "" Then resultado &= " "
+                resultado &= ConvertirCentenas(resto, unidades, dieces, diez_diecinueve, centenas)
+            End If
         End If
         
         ' Capitalizar primera letra
@@ -109,8 +115,11 @@ Public Class FormCheques
             resultado = Char.ToUpper(resultado(0)) & resultado.Substring(1)
         End If
         
+        ' Determinar singular o plural
+        Dim moneda As String = If(entero = 1, "dólar", "dólares")
+        
         ' Agregar centavos en dólares
-        resultado &= String.Format(" dólares con {0:00}/100", CInt(decimales))
+        resultado &= String.Format(" {0} con {1:00}/100", moneda, CInt(decimales))
         
         Return resultado
     End Function
@@ -118,27 +127,42 @@ Public Class FormCheques
     Private Function ConvertirCentenas(numero As Integer, unidades() As String, dieces() As String, diez_diecinueve() As String, centenas() As String) As String
         Dim resultado As String = ""
         
-        ' Centenas
+        ' Procesar centenas (100-900)
         Dim cent As Integer = numero \ 100
         If cent > 0 Then
             resultado = centenas(cent)
         End If
         
-        ' Decenas y unidades
+        ' Procesar decenas y unidades (0-99)
         Dim resto As Integer = numero Mod 100
         If resto > 0 Then
+            ' Si ya hay centenas, agregar conector
             If resultado <> "" Then resultado &= " "
             
+            ' Unidades (1-9)
             If resto < 10 Then
-                resultado &= unidades(resto)
+                ' Si es 1, usar "un" en lugar de "uno"
+                If resto = 1 Then
+                    resultado &= "un"
+                Else
+                    resultado &= unidades(resto)
+                End If
+            ' Diez a diecinueve (10-19)
             ElseIf resto < 20 Then
                 resultado &= diez_diecinueve(resto - 10)
+            ' Veinte en adelante (20-99)
             Else
                 Dim dec As Integer = resto \ 10
                 Dim unid As Integer = resto Mod 10
                 resultado &= dieces(dec)
+                ' Si hay unidades, usar "y"
                 If unid > 0 Then
-                    resultado &= " y " & unidades(unid)
+                    ' Si es 1, usar "un" en lugar de "uno"
+                    If unid = 1 Then
+                        resultado &= " y un"
+                    Else
+                        resultado &= " y " & unidades(unid)
+                    End If
                 End If
             End If
         End If
@@ -237,15 +261,38 @@ Public Class FormCheques
             MessageBox.Show("Seleccione un cheque para anular.")
             Return
         End If
+        
         Dim id = CInt(dgv.SelectedRows(0).Cells(0).Value)
+        Dim numeroCheque = dgv.SelectedRows(0).Cells(1).Value.ToString()
+        
         Using f As New FormAnularCheque(id)
             If f.ShowDialog() = DialogResult.OK Then
                 Dim fechaAnul = f.FechaAnulacion
+                
+                ' Actualizar en memoria
                 Dim c = cheques.FirstOrDefault(Function(x) x.ChequeId = id)
                 If c IsNot Nothing Then
                     c.FechaAnulacion = fechaAnul
-                    RefreshGrid()
                 End If
+                
+                ' Guardar en la base de datos
+                Try
+                    Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
+                    Using conn As New MySqlConnection(connectionString)
+                        conn.Open()
+                        Dim query = "UPDATE cheques SET fecha_anulacion = @fecha_anulacion, estado = 1 WHERE numero = @numero"
+                        Using cmd As New MySqlCommand(query, conn)
+                            cmd.Parameters.AddWithValue("@fecha_anulacion", fechaAnul)
+                            cmd.Parameters.AddWithValue("@numero", numeroCheque)
+                            cmd.ExecuteNonQuery()
+                        End Using
+                    End Using
+                    
+                    MessageBox.Show("Cheque anulado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    RefreshGrid()
+                Catch ex As Exception
+                    MessageBox.Show("Error al anular el cheque: " & ex.Message, "Error de BD", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
             End If
         End Using
     End Sub
@@ -261,11 +308,9 @@ Public Class FormCheques
 
     ' Actualizar monto en letras al cambiar monto
     Private Sub txtMonto_TextChanged(sender As Object, e As EventArgs) Handles txtMonto.TextChanged
-        Dim txtMonto = DirectCast(sender, TextBox)
         Dim montoVal As Decimal = 0
         If Decimal.TryParse(txtMonto.Text, montoVal) Then
-            Dim txtLetras = Me.Controls.OfType(Of TextBox)().Where(Function(t) t.ReadOnly).FirstOrDefault()
-            If txtLetras IsNot Nothing Then txtLetras.Text = NumeroALetrasCompleto(montoVal)
+            txtMontoLetras.Text = NumeroALetrasCompleto(montoVal)
         End If
     End Sub
     
