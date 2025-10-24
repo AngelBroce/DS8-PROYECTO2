@@ -3,7 +3,6 @@ Partial Class FormConciliacion
     Inherits System.Windows.Forms.Form
 
     Private components As System.ComponentModel.IContainer
-    Friend WithEvents ButtonVolver As Button
         Friend WithEvents MenuStrip1 As MenuStrip
         Friend WithEvents mnuCheques As ToolStripMenuItem
         Friend WithEvents mnuDepositos As ToolStripMenuItem
@@ -24,78 +23,71 @@ Partial Class FormConciliacion
 
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.ButtonVolver = New System.Windows.Forms.Button()
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
-        Me.mnuCheques = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuDepositos = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuConciliacion = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnuSalir = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SuspendLayout()
-        '
+        MenuStrip1 = New MenuStrip()
+        mnuCheques = New ToolStripMenuItem()
+        mnuDepositos = New ToolStripMenuItem()
+        mnuConciliacion = New ToolStripMenuItem()
+        ToolStripSeparator1 = New ToolStripSeparator()
+        mnuSalir = New ToolStripMenuItem()
+        MenuStrip1.SuspendLayout()
+        SuspendLayout()
+        ' 
         ' MenuStrip1
-        '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCheques, Me.mnuDepositos, Me.mnuConciliacion, Me.ToolStripSeparator1, Me.mnuSalir})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(300, 24)
-        Me.MenuStrip1.TabIndex = 1
-        Me.MenuStrip1.Text = "menuStrip1"
-        '
+        ' 
+        MenuStrip1.ImageScalingSize = New Size(18, 18)
+        MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuSalir})
+        MenuStrip1.Location = New Point(0, 0)
+        MenuStrip1.Name = "MenuStrip1"
+        MenuStrip1.Size = New Size(800, 27)
+        MenuStrip1.TabIndex = 1
+        MenuStrip1.Text = "menuStrip1"
+        ' 
         ' mnuCheques
-        '
-        Me.mnuCheques.Name = "mnuCheques"
-        Me.mnuCheques.Size = New System.Drawing.Size(66, 20)
-        Me.mnuCheques.Text = "Cheques"
-        '
+        ' 
+        mnuCheques.Name = "mnuCheques"
+        mnuCheques.Size = New Size(76, 23)
+        mnuCheques.Text = "Cheques"
+        ' 
         ' mnuDepositos
-        '
-        Me.mnuDepositos.Name = "mnuDepositos"
-        Me.mnuDepositos.Size = New System.Drawing.Size(73, 20)
-        Me.mnuDepositos.Text = "Depósitos"
-        '
+        ' 
+        mnuDepositos.Name = "mnuDepositos"
+        mnuDepositos.Size = New Size(84, 23)
+        mnuDepositos.Text = "Depósitos"
+        ' 
         ' mnuConciliacion
-        '
-        Me.mnuConciliacion.Name = "mnuConciliacion"
-        Me.mnuConciliacion.Size = New System.Drawing.Size(90, 20)
-        Me.mnuConciliacion.Text = "Conciliación"
-        '
+        ' 
+        mnuConciliacion.Name = "mnuConciliacion"
+        mnuConciliacion.Size = New Size(95, 23)
+        mnuConciliacion.Text = "Conciliación"
+        ' 
         ' ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(6, 6)
-        '
+        ' 
+        ToolStripSeparator1.Name = "ToolStripSeparator1"
+        ToolStripSeparator1.Size = New Size(6, 23)
+        ' 
         ' mnuSalir
-        '
-        Me.mnuSalir.Name = "mnuSalir"
-        Me.mnuSalir.Size = New System.Drawing.Size(41, 20)
-        Me.mnuSalir.Text = "Salir"
-        '
-        ' ButtonVolver
-        '
-        Me.ButtonVolver.Location = New System.Drawing.Point(75, 110)
-        Me.ButtonVolver.Name = "ButtonVolver"
-        Me.ButtonVolver.Size = New System.Drawing.Size(150, 40)
-        Me.ButtonVolver.TabIndex = 0
-        Me.ButtonVolver.Text = "Volver al menú"
-        Me.ButtonVolver.UseVisualStyleBackColor = True
-        '
+        ' 
+        mnuSalir.Name = "mnuSalir"
+        mnuSalir.Size = New Size(48, 23)
+        mnuSalir.Text = "Salir"
+        ' 
         ' FormConciliacion
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 19.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(300, 200)
-        Me.Controls.Add(Me.ButtonVolver)
-        Me.Controls.Add(Me.MenuStrip1)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.MainMenuStrip = Me.MenuStrip1
-        Me.Name = "FormConciliacion"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Conciliación"
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        ' 
+        AutoScaleDimensions = New SizeF(8F, 19F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(800, 539)
+        Controls.Add(MenuStrip1)
+        FormBorderStyle = FormBorderStyle.FixedDialog
+        MainMenuStrip = MenuStrip1
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "FormConciliacion"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Conciliación"
+        MenuStrip1.ResumeLayout(False)
+        MenuStrip1.PerformLayout()
+        ResumeLayout(False)
+        PerformLayout()
 
     End Sub
 End Class

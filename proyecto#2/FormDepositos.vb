@@ -1,6 +1,6 @@
 Public Class FormDepositos
-    Private Sub ButtonVolver_Click(sender As Object, e As EventArgs) Handles ButtonVolver.Click
-        Me.Close()
+    Private Sub ButtonVolver_Click(sender As Object, e As EventArgs)
+        Close
     End Sub
 
     Private Sub mnuCheques_Click(sender As Object, e As EventArgs) Handles mnuCheques.Click
