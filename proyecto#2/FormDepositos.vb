@@ -22,4 +22,9 @@ Public Class FormDepositos
     Private Sub mnuSalir_Click(sender As Object, e As EventArgs) Handles mnuSalir.Click
         Application.Exit()
     End Sub
+
+    Private Sub FormDepositos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
 End Class
