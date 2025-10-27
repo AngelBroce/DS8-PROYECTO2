@@ -1,12 +1,12 @@
 Imports System.Windows.Forms
 
-Public Class FormAnularCheque
+Public Class FormGirarCheque
     Inherits Form
 
     Private lblTitulo As Label
     Private lblFecha As Label
     Private dtpFecha As DateTimePicker
-    Private btnAnular As Button
+    Private btnGirar As Button
     Private btnCancelar As Button
     Private components As System.ComponentModel.IContainer = Nothing
 
@@ -19,7 +19,7 @@ Public Class FormAnularCheque
         dtpFecha.Value = DateTime.Today
         dtpFecha.MinDate = fechaCreacion
         Me.StartPosition = FormStartPosition.CenterParent
-        Me.Text = "Anular Cheque"
+        Me.Text = "Girar Cheque"
         Me.Width = 450
         Me.Height = 300
     End Sub
@@ -29,7 +29,7 @@ Public Class FormAnularCheque
         
         ' Título
         lblTitulo = New Label()
-        lblTitulo.Text = "¿Desea anular el cheque?"
+        lblTitulo.Text = "¿Desea girar el cheque?"
         lblTitulo.Location = New Point(20, 20)
         lblTitulo.Size = New Size(400, 30)
         lblTitulo.Font = New Font("Segoe UI", 12, FontStyle.Bold)
@@ -37,7 +37,7 @@ Public Class FormAnularCheque
         
         ' Etiqueta Fecha
         lblFecha = New Label()
-        lblFecha.Text = "Fecha de anulación:"
+        lblFecha.Text = "Fecha de giro:"
         lblFecha.Location = New Point(20, 70)
         lblFecha.Size = New Size(150, 25)
         lblFecha.Font = New Font("Segoe UI", 10)
@@ -50,18 +50,17 @@ Public Class FormAnularCheque
         dtpFecha.Format = DateTimePickerFormat.Short
         Me.Controls.Add(dtpFecha)
         
-        ' Botón Anular (GRANDE, IZQUIERDA)
-        btnAnular = New Button()
-        btnAnular.Text = "Anular"
-        btnAnular.Location = New Point(75, 160)
-        btnAnular.Size = New Size(150, 50)
-        btnAnular.BackColor = Color.IndianRed
-        btnAnular.ForeColor = Color.White
-        btnAnular.Font = New Font("Segoe UI", 11, FontStyle.Bold)
-        Me.Controls.Add(btnAnular)
-        AddHandler btnAnular.Click, AddressOf btnAnular_Click
+        ' Botón Girar (GRANDE, CENTRADO)
+        btnGirar = New Button()
+        btnGirar.Text = "Girar"
+        btnGirar.Location = New Point(75, 160)
+        btnGirar.Size = New Size(150, 50)
+        btnGirar.BackColor = Color.LightBlue
+        btnGirar.Font = New Font("Segoe UI", 11, FontStyle.Bold)
+        Me.Controls.Add(btnGirar)
+        AddHandler btnGirar.Click, AddressOf btnGirar_Click
         
-        ' Botón Cancelar (DERECHA)
+        ' Botón Cancelar (ABAJO)
         btnCancelar = New Button()
         btnCancelar.Text = "Cancelar"
         btnCancelar.Location = New Point(240, 160)
@@ -75,7 +74,7 @@ Public Class FormAnularCheque
         Me.MinimizeBox = False
     End Sub
 
-    Private Sub btnAnular_Click(sender As Object, e As EventArgs)
+    Private Sub btnGirar_Click(sender As Object, e As EventArgs)
         If dtpFecha.Value < FechaCreacion Then
             MessageBox.Show("La fecha no puede ser anterior a la fecha de creación del cheque.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return

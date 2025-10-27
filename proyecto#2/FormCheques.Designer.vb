@@ -46,6 +46,7 @@ Partial Class FormCheques
         btnNuevo = New Button()
         btnGuardar = New Button()
         btnAnular = New Button()
+        btnChequesGirados = New Button()
         btnAgregarProveedor = New Button()
         dgvCheques = New DataGridView()
         MenuStrip1.SuspendLayout()
@@ -58,7 +59,7 @@ Partial Class FormCheques
         MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuSalir})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Size = New Size(900, 27)
+        MenuStrip1.Size = New Size(1000, 27)
         MenuStrip1.TabIndex = 1
         MenuStrip1.Text = "menuStrip1"
         ' 
@@ -231,12 +232,22 @@ Partial Class FormCheques
         ' 
         btnAnular.BackColor = Color.IndianRed
         btnAnular.ForeColor = Color.White
-        btnAnular.Location = New Point(756, 353)
+        btnAnular.Location = New Point(747, 339)
         btnAnular.Name = "btnAnular"
         btnAnular.Size = New Size(92, 31)
         btnAnular.TabIndex = 17
         btnAnular.Text = "Anular"
         btnAnular.UseVisualStyleBackColor = False
+        ' 
+        ' btnChequesGirados
+        ' 
+        btnChequesGirados.BackColor = Color.LightYellow
+        btnChequesGirados.Location = New Point(626, 339)
+        btnChequesGirados.Name = "btnChequesGirados"
+        btnChequesGirados.Size = New Size(104, 31)
+        btnChequesGirados.TabIndex = 18
+        btnChequesGirados.Text = "Girar"
+        btnChequesGirados.UseVisualStyleBackColor = False
         ' 
         ' btnAgregarProveedor
         ' 
@@ -257,14 +268,14 @@ Partial Class FormCheques
         dgvCheques.ReadOnly = True
         dgvCheques.RowHeadersWidth = 47
         dgvCheques.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvCheques.Size = New Size(840, 230)
+        dgvCheques.Size = New Size(956, 230)
         dgvCheques.TabIndex = 18
         ' 
         ' FormCheques
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(900, 650)
+        ClientSize = New Size(1000, 750)
         Controls.Add(lblNumero)
         Controls.Add(txtNumero)
         Controls.Add(lblFecha)
@@ -283,6 +294,7 @@ Partial Class FormCheques
         Controls.Add(btnNuevo)
         Controls.Add(btnGuardar)
         Controls.Add(btnAnular)
+        Controls.Add(btnChequesGirados)
         Controls.Add(dgvCheques)
         Controls.Add(MenuStrip1)
         Font = New Font("Segoe UI", 10F)
@@ -318,6 +330,7 @@ Partial Class FormCheques
     Friend WithEvents btnNuevo As Button
     Friend WithEvents btnGuardar As Button
     Friend WithEvents btnAnular As Button
+    Friend WithEvents btnChequesGirados As Button
     Friend WithEvents btnAgregarProveedor As Button
     Friend WithEvents dgvCheques As DataGridView
 End Class

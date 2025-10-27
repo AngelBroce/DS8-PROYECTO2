@@ -36,6 +36,7 @@ use proyectoSoft2;
             banco VARCHAR(100),
             estado TINYINT NOT NULL DEFAULT 0,
             objeto_id INT,
+            fecha_girado DATETIME,
             fecha_anulacion DATETIME,
             detalles VARCHAR(300),
             CONSTRAINT CK_cheques_estado CHECK (estado IN (0,1))

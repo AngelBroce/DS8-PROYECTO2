@@ -11,6 +11,7 @@ Public Class FormCheques
         Public Property MontoLetras As String
         Public Property Detalle As String
         Public Property Objeto As String
+        Public Property FechaGirado As DateTime?
         Public Property FechaAnulacion As DateTime?
     End Class
 
@@ -24,26 +25,190 @@ Public Class FormCheques
         LoadObjetos()
         InitializeDataGrid()
         
+        ' Cargar cheques existentes de la BD
+        LoadChequesFromDatabase()
+        
         ' Generar el primer número de cheque automáticamente
         txtNumero.Text = GenerarNumeroCheque()
         txtNumero.ReadOnly = True
     End Sub
 
+    Private Sub LoadChequesFromDatabase()
+        ' Limpiar la lista en memoria
+        cheques.Clear()
+        nextChequeNumber = 1  ' Reiniciar el contador
+        
+        Try
+            Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
+            Using conn As New MySqlConnection(connectionString)
+                conn.Open()
+                
+                Dim query = "SELECT cheque_id, numero, fecha_emision, proveedor_codigo, monto, objeto_codigo, fecha_girado, fecha_anulacion, detalles FROM cheques ORDER BY cheque_id"
+                Using cmd As New MySqlCommand(query, conn)
+                    Using reader = cmd.ExecuteReader()
+                        While reader.Read()
+                            ' Obtener nombre del proveedor
+                            Dim proveedorNombre As String = ""
+                            If Not reader.IsDBNull(3) Then
+                                proveedorNombre = ObtenerNombreProveedor(reader(3).ToString())
+                            End If
+                            
+                            ' Obtener nombre del objeto
+                            Dim objetoNombre As String = ""
+                            If Not reader.IsDBNull(5) Then
+                                objetoNombre = ObtenerNombreObjeto(reader(5).ToString())
+                            End If
+                            
+                            Dim monto As Decimal = If(reader.IsDBNull(4), 0, CDec(reader(4)))
+                            Dim montoLetras = NumeroALetrasCompleto(monto)
+                            
+                            Dim fechaGirado As DateTime? = Nothing
+                            If Not reader.IsDBNull(6) Then
+                                fechaGirado = CDate(reader(6))
+                            End If
+                            
+                            Dim fechaAnulacion As DateTime? = Nothing
+                            If Not reader.IsDBNull(7) Then
+                                fechaAnulacion = CDate(reader(7))
+                            End If
+                            
+                            ' Extraer el número como integer para actualizar nextChequeNumber
+                            Dim numeroStr As String = reader(1).ToString()
+                            Dim numeroInt As Integer = 0
+                            If Integer.TryParse(numeroStr, numeroInt) Then
+                                ' Actualizar nextChequeNumber al siguiente número disponible
+                                If numeroInt >= nextChequeNumber Then
+                                    nextChequeNumber = numeroInt + 1
+                                End If
+                            End If
+                            
+                            Dim c As New Cheque() With {
+                                .ChequeId = CInt(reader(0)),
+                                .Numero = numeroStr,
+                                .Fecha = CDate(reader(2)),
+                                .Proveedor = proveedorNombre,
+                                .Monto = monto,
+                                .MontoLetras = montoLetras,
+                                .Objeto = objetoNombre,
+                                .FechaGirado = fechaGirado,
+                                .FechaAnulacion = fechaAnulacion,
+                                .Detalle = If(reader.IsDBNull(8), "", reader(8).ToString())
+                            }
+                            cheques.Add(c)
+                            
+                            ' Actualizar nextId para que no haya conflictos
+                            If c.ChequeId >= nextId Then
+                                nextId = c.ChequeId + 1
+                            End If
+                        End While
+                    End Using
+                End Using
+            End Using
+            
+            RefreshGrid()
+        Catch ex As Exception
+            MessageBox.Show("Error al cargar cheques de la BD: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Function ObtenerNombreProveedor(codigo As String) As String
+        Try
+            Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
+            Using conn As New MySqlConnection(connectionString)
+                conn.Open()
+                Dim query = "SELECT nombre FROM proveedores WHERE codigo = @codigo"
+                Using cmd As New MySqlCommand(query, conn)
+                    cmd.Parameters.AddWithValue("@codigo", codigo)
+                    Dim result = cmd.ExecuteScalar()
+                    If result IsNot Nothing Then
+                        Return result.ToString()
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            ' Silencio el error
+        End Try
+        Return codigo
+    End Function
+
+    Private Function ObtenerNombreObjeto(codigo As String) As String
+        Try
+            Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
+            Using conn As New MySqlConnection(connectionString)
+                conn.Open()
+                Dim query = "SELECT detalle FROM objeto_gasto WHERE codigo = @codigo"
+                Using cmd As New MySqlCommand(query, conn)
+                    cmd.Parameters.AddWithValue("@codigo", codigo)
+                    Dim result = cmd.ExecuteScalar()
+                    If result IsNot Nothing Then
+                        Return result.ToString()
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            ' Silencio el error
+        End Try
+        Return codigo
+    End Function
+
     Private Sub LoadProveedores()
-        ' Datos de ejemplo - en producción cargar desde la tabla proveedores
+        ' Cargar proveedores desde la BD
         cmbProveedor.Items.Clear()
-        cmbProveedor.Items.Add("Proveedor Ejemplo S.A.")
-        cmbProveedor.Items.Add("CARILO, S.A.")
-        cmbProveedor.Items.Add("AGENCIA SKY")
-        cmbProveedor.SelectedIndex = 0
+        Try
+            Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
+            Using conn As New MySqlConnection(connectionString)
+                conn.Open()
+                Dim query = "SELECT codigo, nombre FROM proveedores ORDER BY nombre"
+                Using cmd As New MySqlCommand(query, conn)
+                    Using reader = cmd.ExecuteReader()
+                        While reader.Read()
+                            Dim codigo = reader("codigo").ToString()
+                            Dim nombre = reader("nombre").ToString()
+                            cmbProveedor.Items.Add(codigo & " - " & nombre)
+                        End While
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            ' Si falla la carga, mostrar datos de ejemplo
+            MessageBox.Show("Error cargando proveedores: " & ex.Message)
+            cmbProveedor.Items.Add("00001 - ÓPTICA SOSA Y ARANGO, S.A.")
+            cmbProveedor.Items.Add("00003 - CARILO, S.A.")
+            cmbProveedor.Items.Add("00006 - AGENCIA SKY")
+        End Try
+        If cmbProveedor.Items.Count > 0 Then
+            cmbProveedor.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub LoadObjetos()
+        ' Cargar objetos de gasto desde la BD
         cmbObjeto.Items.Clear()
-        cmbObjeto.Items.Add("OG-001 - Gastos administrativos")
-        cmbObjeto.Items.Add("OG-002 - Gastos operativos")
-        cmbObjeto.Items.Add("OG-003 - Honorarios profesionales")
-        cmbObjeto.SelectedIndex = 0
+        Try
+            Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
+            Using conn As New MySqlConnection(connectionString)
+                conn.Open()
+                Dim query = "SELECT codigo, detalle FROM objeto_gasto ORDER BY detalle"
+                Using cmd As New MySqlCommand(query, conn)
+                    Using reader = cmd.ExecuteReader()
+                        While reader.Read()
+                            Dim codigo = reader("codigo").ToString()
+                            Dim detalle = reader("detalle").ToString()
+                            cmbObjeto.Items.Add(codigo & " - " & detalle)
+                        End While
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            ' Si falla la carga, mostrar datos de ejemplo
+            MessageBox.Show("Error cargando objetos: " & ex.Message)
+            cmbObjeto.Items.Add("120 - Impresión, Encuadernación y otros")
+            cmbObjeto.Items.Add("130 - Información y Publicidad")
+            cmbObjeto.Items.Add("141 - Viáticos dentro del país")
+        End Try
+        If cmbObjeto.Items.Count > 0 Then
+            cmbObjeto.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub InitializeDataGrid()
@@ -56,6 +221,7 @@ Public Class FormCheques
         dgv.Columns.Add("Proveedor", "Proveedor")
         dgv.Columns.Add("Monto", "Monto")
         dgv.Columns.Add("Objeto", "Objeto")
+        dgv.Columns.Add("FechaGirado", "Fecha Girado")
         dgv.Columns.Add("Anulado", "Anulado")
         dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgv.AllowUserToAddRows = False
@@ -66,8 +232,9 @@ Public Class FormCheques
         If dgv Is Nothing Then Return
         dgv.Rows.Clear()
         For Each c In cheques
+            Dim fechaGirado = If(c.FechaGirado.HasValue, c.FechaGirado.Value.ToString("yyyy-MM-dd"), "")
             Dim anulado = If(c.FechaAnulacion.HasValue, c.FechaAnulacion.Value.ToString("yyyy-MM-dd"), "")
-            dgv.Rows.Add(c.ChequeId, c.Numero, c.Fecha.ToString("yyyy-MM-dd"), c.Proveedor, c.Monto.ToString("N2"), c.Objeto, anulado)
+            dgv.Rows.Add(c.ChequeId, c.Numero, c.Fecha.ToString("yyyy-MM-dd"), c.Proveedor, c.Monto.ToString("N2"), c.Objeto, fechaGirado, anulado)
         Next
     End Sub
 
@@ -217,21 +384,8 @@ Public Class FormCheques
     End Sub
 
     Private Sub btnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
-        Try
-            Dim numero = Me.Controls.OfType(Of TextBox)().FirstOrDefault(Function(t) t.Location = New Point(20, 65)).Text
-        Catch ex As Exception
-            ' El control fue localizado por variable en designer; usaremos búsqueda por Name alternativa si hace falta
-        End Try
-        ' Para simplicidad, recuperamos controles por tipos y posiciones (puedes vincularlos a variables con Friend WithEvents para mayor robustez)
-        Dim txtNumero = Me.Controls.OfType(Of TextBox)().OrderBy(Function(t) t.Location.Y).FirstOrDefault()
-        Dim txtMonto = Me.Controls.OfType(Of TextBox)().OrderByDescending(Function(t) t.Location.Y).FirstOrDefault()
-        Dim txtMontoLetras = Me.Controls.OfType(Of TextBox)().Where(Function(t) t.ReadOnly).FirstOrDefault()
-        Dim txtDetalle = Me.Controls.OfType(Of TextBox)().Where(Function(t) t.Multiline).FirstOrDefault()
-        Dim cmbProv = Me.Controls.OfType(Of ComboBox)().FirstOrDefault()
-        Dim cmbObj = Me.Controls.OfType(Of ComboBox)().LastOrDefault()
-        Dim dtp = Me.Controls.OfType(Of DateTimePicker)().FirstOrDefault()
-
-        If txtNumero Is Nothing OrElse txtMonto Is Nothing OrElse cmbProv Is Nothing Then
+        ' Usar los controles Friend WithEvents directamente del Designer
+        If txtNumero Is Nothing OrElse txtMonto Is Nothing OrElse cmbProveedor Is Nothing Then
             MessageBox.Show("Faltan controles en el formulario.")
             Return
         End If
@@ -242,17 +396,75 @@ Public Class FormCheques
         Dim nuevo As New Cheque() With {
             .ChequeId = nextId,
             .Numero = txtNumero.Text,
-            .Fecha = If(dtp IsNot Nothing, dtp.Value, DateTime.Today),
-            .Proveedor = If(cmbProv.SelectedItem IsNot Nothing, cmbProv.SelectedItem.ToString(), ""),
+            .Fecha = dtpFecha.Value,
+            .Proveedor = If(cmbProveedor.SelectedItem IsNot Nothing, cmbProveedor.SelectedItem.ToString(), ""),
             .Monto = montoVal,
-            .MontoLetras = If(txtMontoLetras IsNot Nothing, txtMontoLetras.Text, NumeroALetrasCompleto(montoVal)),
-            .Detalle = If(txtDetalle IsNot Nothing, txtDetalle.Text, ""),
-            .Objeto = If(cmbObj IsNot Nothing AndAlso cmbObj.SelectedItem IsNot Nothing, cmbObj.SelectedItem.ToString(), "")
+            .MontoLetras = txtMontoLetras.Text,
+            .Detalle = txtDetalle.Text,
+            .Objeto = If(cmbObjeto.SelectedItem IsNot Nothing, cmbObjeto.SelectedItem.ToString(), "")
         }
         cheques.Add(nuevo)
         nextId += 1
-        RefreshGrid()
-        MessageBox.Show("Cheque registrado.")
+        
+        ' Guardar en la base de datos
+        Try
+            Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
+            Using conn As New MySqlConnection(connectionString)
+                conn.Open()
+                
+                ' Obtener códigos de proveedor y objeto desde los nombres seleccionados
+                Dim proveedorCodigo As String = ""
+                Dim objetoCodigo As String = ""
+                
+                ' Si el proveedor tiene un código al inicio (formato "00001 - Nombre"), extraerlo
+                If cmbProveedor.SelectedItem IsNot Nothing Then
+                    Dim provText As String = cmbProveedor.SelectedItem.ToString()
+                    If provText.Contains(" - ") Then
+                        Dim parts = provText.Split(New String() {" - "}, StringSplitOptions.None)
+                        proveedorCodigo = parts(0)
+                    End If
+                End If
+                
+                ' Si el objeto tiene un código al inicio (formato "120 - Nombre"), extraerlo
+                If cmbObjeto.SelectedItem IsNot Nothing Then
+                    Dim objText As String = cmbObjeto.SelectedItem.ToString()
+                    If objText.Contains(" - ") Then
+                        Dim parts = objText.Split(New String() {" - "}, StringSplitOptions.None)
+                        objetoCodigo = parts(0)
+                    End If
+                End If
+                
+                Dim query = "INSERT INTO cheques (numero, fecha_emision, proveedor_codigo, monto, banco, estado, objeto_codigo, detalles) " & _
+                            "VALUES (@numero, @fecha_emision, @proveedor_codigo, @monto, NULL, 0, @objeto_codigo, @detalles)"
+                
+                Using cmd As New MySqlCommand(query, conn)
+                    cmd.Parameters.AddWithValue("@numero", nuevo.Numero)
+                    cmd.Parameters.AddWithValue("@fecha_emision", nuevo.Fecha)
+                    
+                    If String.IsNullOrEmpty(proveedorCodigo) Then
+                        cmd.Parameters.AddWithValue("@proveedor_codigo", DBNull.Value)
+                    Else
+                        cmd.Parameters.AddWithValue("@proveedor_codigo", proveedorCodigo)
+                    End If
+                    
+                    cmd.Parameters.AddWithValue("@monto", nuevo.Monto)
+                    
+                    If String.IsNullOrEmpty(objetoCodigo) Then
+                        cmd.Parameters.AddWithValue("@objeto_codigo", DBNull.Value)
+                    Else
+                        cmd.Parameters.AddWithValue("@objeto_codigo", objetoCodigo)
+                    End If
+                    
+                    cmd.Parameters.AddWithValue("@detalles", nuevo.Detalle)
+                    cmd.ExecuteNonQuery()
+                End Using
+            End Using
+            
+            RefreshGrid()
+            MessageBox.Show("Cheque guardado correctamente en la base de datos.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show("Error al guardar en la base de datos: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub btnAnular_Click(sender As Object, e As EventArgs) Handles btnAnular.Click
@@ -265,30 +477,41 @@ Public Class FormCheques
         Dim id = CInt(dgv.SelectedRows(0).Cells(0).Value)
         Dim numeroCheque = dgv.SelectedRows(0).Cells(1).Value.ToString()
         
-        Using f As New FormAnularCheque(id)
+        ' Buscar el cheque en memoria
+        Dim c = cheques.FirstOrDefault(Function(x) x.ChequeId = id)
+        If c Is Nothing Then Return
+        
+        ' Validar que el cheque sea nuevo (no haya sido anulado previamente)
+        If c.FechaAnulacion.HasValue Then
+            MessageBox.Show("Este cheque ya ha sido anulado. No se puede procesar nuevamente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+        
+        ' Abrir formulario para anular
+        Using f As New FormAnularCheque(c.Fecha)
             If f.ShowDialog() = DialogResult.OK Then
-                Dim fechaAnul = f.FechaAnulacion
+                Dim fechaSeleccionada = f.FechaSeleccionada
                 
                 ' Actualizar en memoria
-                Dim c = cheques.FirstOrDefault(Function(x) x.ChequeId = id)
-                If c IsNot Nothing Then
-                    c.FechaAnulacion = fechaAnul
-                End If
+                c.FechaAnulacion = fechaSeleccionada
                 
                 ' Guardar en la base de datos
                 Try
                     Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
                     Using conn As New MySqlConnection(connectionString)
                         conn.Open()
+                        
+                        ' Guardar como anulado (estado = 1, fecha_anulacion)
                         Dim query = "UPDATE cheques SET fecha_anulacion = @fecha_anulacion, estado = 1 WHERE numero = @numero"
                         Using cmd As New MySqlCommand(query, conn)
-                            cmd.Parameters.AddWithValue("@fecha_anulacion", fechaAnul)
+                            cmd.Parameters.AddWithValue("@fecha_anulacion", fechaSeleccionada)
                             cmd.Parameters.AddWithValue("@numero", numeroCheque)
                             cmd.ExecuteNonQuery()
                         End Using
+                        
+                        MessageBox.Show("Cheque anulado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Using
                     
-                    MessageBox.Show("Cheque anulado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     RefreshGrid()
                 Catch ex As Exception
                     MessageBox.Show("Error al anular el cheque: " & ex.Message, "Error de BD", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -296,12 +519,64 @@ Public Class FormCheques
             End If
         End Using
     End Sub
-
     Private Sub btnAgregarProveedor_Click(sender As Object, e As EventArgs) Handles btnAgregarProveedor.Click
         Using f As New FormProveedor()
             If f.ShowDialog() = DialogResult.OK Then
                 ' Recargar proveedores (en producción recargar de la BD)
                 LoadProveedores()
+            End If
+        End Using
+    End Sub
+
+    Private Sub btnChequesGirados_Click(sender As Object, e As EventArgs) Handles btnChequesGirados.Click
+        Dim dgv As DataGridView = Me.Controls.OfType(Of DataGridView)().FirstOrDefault()
+        If dgv Is Nothing OrElse dgv.SelectedRows.Count = 0 Then
+            MessageBox.Show("Seleccione un cheque para girar.")
+            Return
+        End If
+        
+        Dim id = CInt(dgv.SelectedRows(0).Cells(0).Value)
+        Dim numeroCheque = dgv.SelectedRows(0).Cells(1).Value.ToString()
+        
+        ' Buscar el cheque en memoria
+        Dim c = cheques.FirstOrDefault(Function(x) x.ChequeId = id)
+        If c Is Nothing Then Return
+        
+        ' Validar que el cheque sea nuevo (no haya sido girado previamente)
+        If c.FechaGirado.HasValue Then
+            MessageBox.Show("Este cheque ya ha sido girado. No se puede procesar nuevamente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+        
+        ' Abrir formulario para girar
+        Using f As New FormGirarCheque(c.Fecha)
+            If f.ShowDialog() = DialogResult.OK Then
+                Dim fechaSeleccionada = f.FechaSeleccionada
+                
+                ' Actualizar en memoria
+                c.FechaGirado = fechaSeleccionada
+                
+                ' Guardar en la base de datos
+                Try
+                    Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
+                    Using conn As New MySqlConnection(connectionString)
+                        conn.Open()
+                        
+                        ' Guardar como girado (estado = 0, fecha_girado)
+                        Dim query = "UPDATE cheques SET estado = 0, fecha_girado = @fecha_girado WHERE numero = @numero"
+                        Using cmd As New MySqlCommand(query, conn)
+                            cmd.Parameters.AddWithValue("@fecha_girado", fechaSeleccionada)
+                            cmd.Parameters.AddWithValue("@numero", numeroCheque)
+                            cmd.ExecuteNonQuery()
+                        End Using
+                        
+                        MessageBox.Show("Cheque girado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Using
+                    
+                    RefreshGrid()
+                Catch ex As Exception
+                    MessageBox.Show("Error al girar el cheque: " & ex.Message, "Error de BD", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
             End If
         End Using
     End Sub
