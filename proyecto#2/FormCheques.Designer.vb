@@ -43,7 +43,6 @@ Partial Class FormCheques
         txtMonto = New TextBox()
         txtMontoLetras = New TextBox()
         txtDetalle = New TextBox()
-        btnNuevo = New Button()
         btnGuardar = New Button()
         btnAnular = New Button()
         btnChequesGirados = New Button()
@@ -59,7 +58,7 @@ Partial Class FormCheques
         MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuSalir})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Size = New Size(1000, 27)
+        MenuStrip1.Size = New Size(1175, 27)
         MenuStrip1.TabIndex = 1
         MenuStrip1.Text = "menuStrip1"
         ' 
@@ -207,23 +206,13 @@ Partial Class FormCheques
         txtDetalle.Size = New Size(600, 60)
         txtDetalle.TabIndex = 14
         ' 
-        ' btnNuevo
-        ' 
-        btnNuevo.BackColor = Color.LightGreen
-        btnNuevo.Location = New Point(650, 60)
-        btnNuevo.Name = "btnNuevo"
-        btnNuevo.Size = New Size(92, 33)
-        btnNuevo.TabIndex = 15
-        btnNuevo.Text = "Nuevo"
-        btnNuevo.UseVisualStyleBackColor = False
-        ' 
         ' btnGuardar
         ' 
         btnGuardar.BackColor = Color.SteelBlue
         btnGuardar.ForeColor = Color.White
-        btnGuardar.Location = New Point(650, 100)
+        btnGuardar.Location = New Point(642, 310)
         btnGuardar.Name = "btnGuardar"
-        btnGuardar.Size = New Size(92, 34)
+        btnGuardar.Size = New Size(131, 52)
         btnGuardar.TabIndex = 16
         btnGuardar.Text = "Guardar"
         btnGuardar.UseVisualStyleBackColor = False
@@ -232,7 +221,7 @@ Partial Class FormCheques
         ' 
         btnAnular.BackColor = Color.IndianRed
         btnAnular.ForeColor = Color.White
-        btnAnular.Location = New Point(747, 339)
+        btnAnular.Location = New Point(152, 647)
         btnAnular.Name = "btnAnular"
         btnAnular.Size = New Size(92, 31)
         btnAnular.TabIndex = 17
@@ -242,7 +231,7 @@ Partial Class FormCheques
         ' btnChequesGirados
         ' 
         btnChequesGirados.BackColor = Color.LightYellow
-        btnChequesGirados.Location = New Point(626, 339)
+        btnChequesGirados.Location = New Point(20, 647)
         btnChequesGirados.Name = "btnChequesGirados"
         btnChequesGirados.Size = New Size(104, 31)
         btnChequesGirados.TabIndex = 18
@@ -268,14 +257,14 @@ Partial Class FormCheques
         dgvCheques.ReadOnly = True
         dgvCheques.RowHeadersWidth = 47
         dgvCheques.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvCheques.Size = New Size(956, 230)
+        dgvCheques.Size = New Size(1131, 230)
         dgvCheques.TabIndex = 18
         ' 
         ' FormCheques
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1000, 750)
+        ClientSize = New Size(1175, 750)
         Controls.Add(lblNumero)
         Controls.Add(txtNumero)
         Controls.Add(lblFecha)
@@ -291,7 +280,6 @@ Partial Class FormCheques
         Controls.Add(txtMontoLetras)
         Controls.Add(lblDetalle)
         Controls.Add(txtDetalle)
-        Controls.Add(btnNuevo)
         Controls.Add(btnGuardar)
         Controls.Add(btnAnular)
         Controls.Add(btnChequesGirados)
@@ -327,7 +315,6 @@ Partial Class FormCheques
     Friend WithEvents txtMonto As TextBox
     Friend WithEvents txtMontoLetras As TextBox
     Friend WithEvents txtDetalle As TextBox
-    Friend WithEvents btnNuevo As Button
     Friend WithEvents btnGuardar As Button
     Friend WithEvents btnAnular As Button
     Friend WithEvents btnChequesGirados As Button
