@@ -22,5 +22,8 @@ Public Class FormConciliacion
         Application.Exit()
     End Sub
 
+    Private Sub FormConciliacion_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        DateTimePicker1.CustomFormat = "MM-yyyy"
+    End Sub
 End Class
 '' Eliminada definición parcial duplicada; los handlers están en la clase principal arriba.

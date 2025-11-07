@@ -496,10 +496,10 @@ Public Class FormCheques
             Dim connectionString As String = "Server=localhost;Database=proyectoSoft2;Uid=root;Pwd=;"
             Using conn As New MySqlConnection(connectionString)
                 conn.Open()
-                
-                Dim query = "INSERT INTO cheques (numero, fecha_emision, proveedor_codigo, monto, banco, estado, objeto_codigo, detalles) " & _
-                            "VALUES (@numero, @fecha_emision, @proveedor_codigo, @monto, NULL, 0, @objeto_codigo, @detalles)"
-                
+
+                Dim query = "INSERT INTO cheques (numero, fecha_emision, proveedor_codigo, monto, estado, objeto_codigo, detalles) " &
+                            "VALUES (@numero, @fecha_emision, @proveedor_codigo, @monto, 0, @objeto_codigo, @detalles)"
+
                 Using cmd As New MySqlCommand(query, conn)
                     cmd.Parameters.AddWithValue("@numero", nuevo.Numero)
                     cmd.Parameters.AddWithValue("@fecha_emision", nuevo.Fecha)
