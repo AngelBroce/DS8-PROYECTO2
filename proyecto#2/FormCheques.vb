@@ -424,15 +424,15 @@ Public Class FormCheques
     End Sub
 
     Private Sub mnuDepositos_Click(sender As Object, e As EventArgs) Handles mnuDepositos.Click
-        Using f As New FormDepositos()
-            f.ShowDialog()
-        End Using
+        Dim f As New FormDepositos()
+        f.Show()
+        Me.Close()
     End Sub
 
     Private Sub mnuConciliacion_Click(sender As Object, e As EventArgs) Handles mnuConciliacion.Click
-        Using f As New FormConciliacion()
-            f.ShowDialog()
-        End Using
+        Dim f As New FormConciliacion()
+        f.Show()
+        Me.Close()
     End Sub
 
     Private Sub mnuSalir_Click(sender As Object, e As EventArgs) Handles mnuSalir.Click
@@ -566,6 +566,12 @@ Public Class FormCheques
             MessageBox.Show("Este cheque ya ha sido anulado. No se puede procesar nuevamente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
+
+        ' Si el cheque ya fue girado, no se puede anular
+        If c.FechaGirado.HasValue Then
+            MessageBox.Show("Este cheque ya ha sido girado. No se puede anular.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
         
         ' Abrir formulario para anular
         Using f As New FormAnularCheque(c.Fecha)
@@ -633,6 +639,13 @@ Public Class FormCheques
         Dim c = cheques.FirstOrDefault(Function(x) x.ChequeId = id)
         If c Is Nothing Then Return
         
+        ' Validar que el cheque sea nuevo (no haya sido girado previamente)
+        ' Si el cheque ya fue anulado, no se puede girar
+        If c.FechaAnulacion.HasValue Then
+            MessageBox.Show("Este cheque ya ha sido anulado. No se puede girar.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
         ' Validar que el cheque sea nuevo (no haya sido girado previamente)
         If c.FechaGirado.HasValue Then
             MessageBox.Show("Este cheque ya ha sido girado. No se puede procesar nuevamente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)

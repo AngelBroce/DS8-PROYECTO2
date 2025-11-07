@@ -58,7 +58,7 @@ Partial Class FormCheques
         MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuSalir})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Size = New Size(1175, 27)
+        MenuStrip1.Size = New Size(1239, 27)
         MenuStrip1.TabIndex = 1
         MenuStrip1.Text = "menuStrip1"
         ' 
@@ -241,9 +241,9 @@ Partial Class FormCheques
         ' btnAgregarProveedor
         ' 
         btnAgregarProveedor.BackColor = Color.LightSteelBlue
-        btnAgregarProveedor.Location = New Point(340, 125)
+        btnAgregarProveedor.Location = New Point(340, 120)
         btnAgregarProveedor.Name = "btnAgregarProveedor"
-        btnAgregarProveedor.Size = New Size(158, 28)
+        btnAgregarProveedor.Size = New Size(177, 37)
         btnAgregarProveedor.TabIndex = 6
         btnAgregarProveedor.Text = "Agregar proveedor"
         btnAgregarProveedor.UseVisualStyleBackColor = False
@@ -252,19 +252,19 @@ Partial Class FormCheques
         ' 
         dgvCheques.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         dgvCheques.ColumnHeadersHeight = 26
-        dgvCheques.Location = New Point(20, 390)
+        dgvCheques.Location = New Point(20, 391)
         dgvCheques.Name = "dgvCheques"
         dgvCheques.ReadOnly = True
         dgvCheques.RowHeadersWidth = 47
         dgvCheques.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvCheques.Size = New Size(1131, 230)
+        dgvCheques.Size = New Size(1195, 230)
         dgvCheques.TabIndex = 18
         ' 
         ' FormCheques
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1175, 750)
+        ClientSize = New Size(1239, 751)
         Controls.Add(lblNumero)
         Controls.Add(txtNumero)
         Controls.Add(lblFecha)

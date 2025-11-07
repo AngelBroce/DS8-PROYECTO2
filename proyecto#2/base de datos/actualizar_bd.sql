@@ -124,7 +124,23 @@ INSERT IGNORE INTO proveedores (codigo, nombre, ruc, direccion) VALUES
 ('00056', 'Deportes Jimmy, S.A.', '', '');
 
 -- ========================================================================
--- 4. Tabla: cheques (registro de cheques emitidos)
+-- 4. Tabla: usuarios (credenciales de usuario para login)
+-- ========================================================================
+CREATE TABLE IF NOT EXISTS usuarios (
+  usuario_id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario VARCHAR(50) NOT NULL UNIQUE,
+  contrasena VARCHAR(255) NOT NULL,
+  nombre_completo VARCHAR(100),
+  activo TINYINT DEFAULT 1,
+  fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insertar usuario por defecto (usuario: admin, contraseña: admin123)
+INSERT IGNORE INTO usuarios (usuario, contrasena, nombre_completo, activo) VALUES
+('admin', 'admin123', 'Contador Principal', 1);
+
+-- ========================================================================
+-- 5. Tabla: cheques (registro de cheques emitidos)
 -- ========================================================================
 DROP TABLE IF EXISTS cheques;
 CREATE TABLE cheques (
@@ -140,6 +156,19 @@ CREATE TABLE cheques (
     detalles VARCHAR(300),
     KEY FK_cheques_proveedores (proveedor_codigo),
     KEY FK_cheques_objeto_gasto (objeto_codigo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ========================================================================
+-- 6. Tabla: depositos (registro de depósitos)
+-- ========================================================================
+CREATE TABLE IF NOT EXISTS depositos (
+  DepositoID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  Tipo ENUM('Transferencia', 'Deposito Directo') NOT NULL,
+  FechaOperacion DATE NOT NULL,
+  Monto DECIMAL(18,2) NOT NULL,
+  Descripcion VARCHAR(200) DEFAULT NULL,
+  FechaRegistro DATETIME DEFAULT CURRENT_TIMESTAMP,
+  KEY idx_depositos_fecha (FechaOperacion)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ========================================================================

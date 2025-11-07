@@ -11,9 +11,9 @@ Public Class FormDepositos
     End Sub
 
     Private Sub mnuCheques_Click(sender As Object, e As EventArgs) Handles mnuCheques.Click
-        Using f As New FormCheques()
-            f.ShowDialog()
-        End Using
+        Dim f As New FormCheques()
+        f.Show()
+        Me.Close()
     End Sub
 
     Private Sub mnuDepositos_Click(sender As Object, e As EventArgs) Handles mnuDepositos.Click
@@ -21,9 +21,9 @@ Public Class FormDepositos
     End Sub
 
     Private Sub mnuConciliacion_Click(sender As Object, e As EventArgs) Handles mnuConciliacion.Click
-        Using f As New FormConciliacion()
-            f.ShowDialog()
-        End Using
+        Dim f As New FormConciliacion()
+        f.Show()
+        Me.Close()
     End Sub
 
     Private Sub mnuSalir_Click(sender As Object, e As EventArgs) Handles mnuSalir.Click
