@@ -36,6 +36,8 @@ Partial Class FormDepositos
         TextBox1 = New TextBox()
         Label1 = New Label()
         Button1 = New Button()
+        lblNumeroCuenta = New Label()
+        numerocuentatxt = New TextBox()
         MenuStrip1.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -46,45 +48,47 @@ Partial Class FormDepositos
         MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuSalir})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Size = New Size(826, 28)
+        MenuStrip1.Padding = New Padding(5, 2, 0, 2)
+        MenuStrip1.Size = New Size(723, 27)
         MenuStrip1.TabIndex = 1
         MenuStrip1.Text = "menuStrip1"
         ' 
         ' mnuCheques
         ' 
         mnuCheques.Name = "mnuCheques"
-        mnuCheques.Size = New Size(79, 24)
+        mnuCheques.Size = New Size(65, 23)
         mnuCheques.Text = "Cheques"
         ' 
         ' mnuDepositos
         ' 
         mnuDepositos.Name = "mnuDepositos"
-        mnuDepositos.Size = New Size(90, 24)
+        mnuDepositos.Size = New Size(71, 23)
         mnuDepositos.Text = "Depósitos"
         ' 
         ' mnuConciliacion
         ' 
         mnuConciliacion.Name = "mnuConciliacion"
-        mnuConciliacion.Size = New Size(104, 24)
+        mnuConciliacion.Size = New Size(85, 23)
         mnuConciliacion.Text = "Conciliación"
         ' 
         ' ToolStripSeparator1
         ' 
         ToolStripSeparator1.Name = "ToolStripSeparator1"
-        ToolStripSeparator1.Size = New Size(6, 24)
+        ToolStripSeparator1.Size = New Size(6, 23)
         ' 
         ' mnuSalir
         ' 
         mnuSalir.Name = "mnuSalir"
-        mnuSalir.Size = New Size(52, 24)
+        mnuSalir.Size = New Size(41, 23)
         mnuSalir.Text = "Salir"
         ' 
         ' RadioButton1
         ' 
         RadioButton1.AutoSize = True
-        RadioButton1.Location = New Point(28, 81)
+        RadioButton1.Location = New Point(24, 61)
+        RadioButton1.Margin = New Padding(3, 2, 3, 2)
         RadioButton1.Name = "RadioButton1"
-        RadioButton1.Size = New Size(111, 24)
+        RadioButton1.Size = New Size(89, 19)
         RadioButton1.TabIndex = 2
         RadioButton1.TabStop = True
         RadioButton1.Text = "Tranferencia"
@@ -93,9 +97,10 @@ Partial Class FormDepositos
         ' RadioButton2
         ' 
         RadioButton2.AutoSize = True
-        RadioButton2.Location = New Point(155, 81)
+        RadioButton2.Location = New Point(136, 61)
+        RadioButton2.Margin = New Padding(3, 2, 3, 2)
         RadioButton2.Name = "RadioButton2"
-        RadioButton2.Size = New Size(144, 24)
+        RadioButton2.Size = New Size(113, 19)
         RadioButton2.TabIndex = 3
         RadioButton2.TabStop = True
         RadioButton2.Text = "Deposito Directo"
@@ -104,50 +109,73 @@ Partial Class FormDepositos
         ' DataGridView1
         ' 
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Location = New Point(28, 275)
+        DataGridView1.Location = New Point(24, 206)
+        DataGridView1.Margin = New Padding(3, 2, 3, 2)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(558, 161)
+        DataGridView1.Size = New Size(670, 190)
         DataGridView1.TabIndex = 4
         ' 
         ' DateTimePicker1
         ' 
         DateTimePicker1.Format = DateTimePickerFormat.Short
-        DateTimePicker1.Location = New Point(327, 81)
+        DateTimePicker1.Location = New Point(286, 61)
+        DateTimePicker1.Margin = New Padding(3, 2, 3, 2)
         DateTimePicker1.Name = "DateTimePicker1"
-        DateTimePicker1.Size = New Size(116, 27)
+        DateTimePicker1.Size = New Size(102, 23)
         DateTimePicker1.TabIndex = 5
         ' 
         ' TextBox1
         ' 
-        TextBox1.Location = New Point(28, 149)
+        TextBox1.Location = New Point(24, 112)
+        TextBox1.Margin = New Padding(3, 2, 3, 2)
         TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(125, 27)
+        TextBox1.Size = New Size(110, 23)
         TextBox1.TabIndex = 6
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(28, 126)
+        Label1.Location = New Point(24, 94)
         Label1.Name = "Label1"
-        Label1.Size = New Size(56, 20)
+        Label1.Size = New Size(46, 15)
         Label1.TabIndex = 7
         Label1.Text = "Monto:"
         ' 
         ' Button1
         ' 
-        Button1.Location = New Point(327, 147)
+        Button1.Location = New Point(286, 110)
+        Button1.Margin = New Padding(3, 2, 3, 2)
         Button1.Name = "Button1"
-        Button1.Size = New Size(116, 43)
+        Button1.Size = New Size(102, 32)
         Button1.TabIndex = 8
         Button1.Text = "Registrar"
         Button1.UseVisualStyleBackColor = True
         ' 
+        ' lblNumeroCuenta
+        ' 
+        lblNumeroCuenta.AutoSize = True
+        lblNumeroCuenta.Location = New Point(24, 142)
+        lblNumeroCuenta.Name = "lblNumeroCuenta"
+        lblNumeroCuenta.Size = New Size(65, 15)
+        lblNumeroCuenta.TabIndex = 9
+        lblNumeroCuenta.Text = "N° Cuenta:"
+        lblNumeroCuenta.Visible = False
+        ' 
+        ' numerocuentatxt
+        ' 
+        numerocuentatxt.Location = New Point(24, 159)
+        numerocuentatxt.Margin = New Padding(3, 2, 3, 2)
+        numerocuentatxt.Name = "numerocuentatxt"
+        numerocuentatxt.Size = New Size(176, 23)
+        numerocuentatxt.TabIndex = 10
+        numerocuentatxt.Visible = False
+        ' 
         ' FormDepositos
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(826, 565)
+        ClientSize = New Size(723, 424)
         Controls.Add(Button1)
         Controls.Add(Label1)
         Controls.Add(TextBox1)
@@ -156,8 +184,11 @@ Partial Class FormDepositos
         Controls.Add(RadioButton2)
         Controls.Add(RadioButton1)
         Controls.Add(MenuStrip1)
+        Controls.Add(lblNumeroCuenta)
+        Controls.Add(numerocuentatxt)
         FormBorderStyle = FormBorderStyle.FixedDialog
         MainMenuStrip = MenuStrip1
+        Margin = New Padding(3, 2, 3, 2)
         MaximizeBox = False
         MinimizeBox = False
         Name = "FormDepositos"
@@ -178,4 +209,6 @@ Partial Class FormDepositos
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Button1 As Button
+    Friend WithEvents lblNumeroCuenta As Label
+    Friend WithEvents numerocuentatxt As TextBox
 End Class

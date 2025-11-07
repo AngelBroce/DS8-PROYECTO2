@@ -21,5 +21,6 @@ Public Class FormConciliacion
     Private Sub mnuSalir_Click(sender As Object, e As EventArgs) Handles mnuSalir.Click
         Application.Exit()
     End Sub
+
 End Class
 '' Eliminada definición parcial duplicada; los handlers están en la clase principal arriba.
