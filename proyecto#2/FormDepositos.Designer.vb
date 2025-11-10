@@ -46,27 +46,26 @@ Partial Class FormDepositos
         MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuSalir})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Padding = New Padding(5, 2, 0, 2)
-        MenuStrip1.Size = New Size(723, 27)
+        MenuStrip1.Size = New Size(880, 27)
         MenuStrip1.TabIndex = 1
         MenuStrip1.Text = "menuStrip1"
         ' 
         ' mnuCheques
         ' 
         mnuCheques.Name = "mnuCheques"
-        mnuCheques.Size = New Size(65, 23)
+        mnuCheques.Size = New Size(76, 23)
         mnuCheques.Text = "Cheques"
         ' 
         ' mnuDepositos
         ' 
         mnuDepositos.Name = "mnuDepositos"
-        mnuDepositos.Size = New Size(71, 23)
+        mnuDepositos.Size = New Size(84, 23)
         mnuDepositos.Text = "Depósitos"
         ' 
         ' mnuConciliacion
         ' 
         mnuConciliacion.Name = "mnuConciliacion"
-        mnuConciliacion.Size = New Size(85, 23)
+        mnuConciliacion.Size = New Size(95, 23)
         mnuConciliacion.Text = "Conciliación"
         ' 
         ' ToolStripSeparator1
@@ -77,84 +76,83 @@ Partial Class FormDepositos
         ' mnuSalir
         ' 
         mnuSalir.Name = "mnuSalir"
-        mnuSalir.Size = New Size(41, 23)
+        mnuSalir.Size = New Size(48, 23)
         mnuSalir.Text = "Salir"
         ' 
         ' RadioButton1
         ' 
         RadioButton1.AutoSize = True
-        RadioButton1.Location = New Point(24, 61)
-        RadioButton1.Margin = New Padding(3, 2, 3, 2)
+        RadioButton1.Location = New Point(20, 50)
         RadioButton1.Name = "RadioButton1"
-        RadioButton1.Size = New Size(89, 19)
+        RadioButton1.Size = New Size(104, 23)
         RadioButton1.TabIndex = 2
         RadioButton1.TabStop = True
-        RadioButton1.Text = "Tranferencia"
+        RadioButton1.Text = "Transferencia"
         RadioButton1.UseVisualStyleBackColor = True
         ' 
         ' RadioButton2
         ' 
         RadioButton2.AutoSize = True
-        RadioButton2.Location = New Point(136, 61)
-        RadioButton2.Margin = New Padding(3, 2, 3, 2)
+        RadioButton2.Location = New Point(150, 50)
         RadioButton2.Name = "RadioButton2"
-        RadioButton2.Size = New Size(113, 19)
+        RadioButton2.Size = New Size(132, 23)
         RadioButton2.TabIndex = 3
         RadioButton2.TabStop = True
-        RadioButton2.Text = "Deposito Directo"
+        RadioButton2.Text = "Depósito Directo"
         RadioButton2.UseVisualStyleBackColor = True
         ' 
         ' DataGridView1
         ' 
-        DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Location = New Point(24, 206)
-        DataGridView1.Margin = New Padding(3, 2, 3, 2)
+        DataGridView1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        DataGridView1.ColumnHeadersHeight = 26
+        DataGridView1.Location = New Point(20, 200)
         DataGridView1.Name = "DataGridView1"
+        DataGridView1.ReadOnly = True
         DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(670, 190)
+        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        DataGridView1.Size = New Size(840, 280)
         DataGridView1.TabIndex = 4
         ' 
         ' DateTimePicker1
         ' 
         DateTimePicker1.Format = DateTimePickerFormat.Short
-        DateTimePicker1.Location = New Point(286, 61)
-        DateTimePicker1.Margin = New Padding(3, 2, 3, 2)
+        DateTimePicker1.Location = New Point(310, 50)
         DateTimePicker1.Name = "DateTimePicker1"
-        DateTimePicker1.Size = New Size(102, 23)
+        DateTimePicker1.Size = New Size(200, 26)
         DateTimePicker1.TabIndex = 5
         ' 
         ' TextBox1
         ' 
-        TextBox1.Location = New Point(24, 112)
-        TextBox1.Margin = New Padding(3, 2, 3, 2)
+        TextBox1.Location = New Point(20, 130)
         TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(110, 23)
+        TextBox1.Size = New Size(150, 26)
         TextBox1.TabIndex = 6
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(24, 94)
+        Label1.Location = New Point(20, 105)
         Label1.Name = "Label1"
-        Label1.Size = New Size(46, 15)
+        Label1.Size = New Size(56, 19)
         Label1.TabIndex = 7
         Label1.Text = "Monto:"
         ' 
         ' Button1
         ' 
-        Button1.Location = New Point(286, 110)
-        Button1.Margin = New Padding(3, 2, 3, 2)
+        Button1.BackColor = Color.SteelBlue
+        Button1.ForeColor = Color.White
+        Button1.Location = New Point(200, 120)
         Button1.Name = "Button1"
-        Button1.Size = New Size(102, 32)
+        Button1.Size = New Size(131, 42)
         Button1.TabIndex = 8
         Button1.Text = "Registrar"
-        Button1.UseVisualStyleBackColor = True
+        Button1.UseVisualStyleBackColor = False
         ' 
         ' FormDepositos
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(723, 424)
+        ClientSize = New Size(880, 500)
         Controls.Add(Button1)
         Controls.Add(Label1)
         Controls.Add(TextBox1)
@@ -163,14 +161,14 @@ Partial Class FormDepositos
         Controls.Add(RadioButton2)
         Controls.Add(RadioButton1)
         Controls.Add(MenuStrip1)
+        Font = New Font("Segoe UI", 10F)
         FormBorderStyle = FormBorderStyle.FixedDialog
         MainMenuStrip = MenuStrip1
-        Margin = New Padding(3, 2, 3, 2)
         MaximizeBox = False
         MinimizeBox = False
         Name = "FormDepositos"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "Depósitos"
+        Text = "Módulo de Depósitos"
         MenuStrip1.ResumeLayout(False)
         MenuStrip1.PerformLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()

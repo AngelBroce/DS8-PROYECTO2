@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-11-2025 a las 21:02:13
+-- Tiempo de generación: 10-11-2025 a las 23:34:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -64,7 +64,6 @@ CREATE TABLE `depositos` (
   `Tipo` enum('Transferencia','Deposito Directo') NOT NULL,
   `FechaOperacion` date NOT NULL,
   `Monto` decimal(18,2) NOT NULL,
-  `Descripcion` varchar(200) DEFAULT NULL,
   `FechaRegistro` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -286,19 +285,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `cheques`
 --
 ALTER TABLE `cheques`
-  MODIFY `cheque_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cheque_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `conciliacion_bancaria`
 --
 ALTER TABLE `conciliacion_bancaria`
-  MODIFY `conciliacion_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `conciliacion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `depositos`
 --
 ALTER TABLE `depositos`
-  MODIFY `DepositoID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `DepositoID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
