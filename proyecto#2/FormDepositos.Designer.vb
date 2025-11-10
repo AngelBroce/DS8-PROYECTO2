@@ -36,8 +36,6 @@ Partial Class FormDepositos
         TextBox1 = New TextBox()
         Label1 = New Label()
         Button1 = New Button()
-        lblNumeroCuenta = New Label()
-        numerocuentatxt = New TextBox()
         MenuStrip1.SuspendLayout()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -152,25 +150,6 @@ Partial Class FormDepositos
         Button1.Text = "Registrar"
         Button1.UseVisualStyleBackColor = True
         ' 
-        ' lblNumeroCuenta
-        ' 
-        lblNumeroCuenta.AutoSize = True
-        lblNumeroCuenta.Location = New Point(24, 142)
-        lblNumeroCuenta.Name = "lblNumeroCuenta"
-        lblNumeroCuenta.Size = New Size(65, 15)
-        lblNumeroCuenta.TabIndex = 9
-        lblNumeroCuenta.Text = "N° Cuenta:"
-        lblNumeroCuenta.Visible = False
-        ' 
-        ' numerocuentatxt
-        ' 
-        numerocuentatxt.Location = New Point(24, 159)
-        numerocuentatxt.Margin = New Padding(3, 2, 3, 2)
-        numerocuentatxt.Name = "numerocuentatxt"
-        numerocuentatxt.Size = New Size(176, 23)
-        numerocuentatxt.TabIndex = 10
-        numerocuentatxt.Visible = False
-        ' 
         ' FormDepositos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -184,8 +163,6 @@ Partial Class FormDepositos
         Controls.Add(RadioButton2)
         Controls.Add(RadioButton1)
         Controls.Add(MenuStrip1)
-        Controls.Add(lblNumeroCuenta)
-        Controls.Add(numerocuentatxt)
         FormBorderStyle = FormBorderStyle.FixedDialog
         MainMenuStrip = MenuStrip1
         Margin = New Padding(3, 2, 3, 2)
@@ -209,6 +186,4 @@ Partial Class FormDepositos
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Button1 As Button
-    Friend WithEvents lblNumeroCuenta As Label
-    Friend WithEvents numerocuentatxt As TextBox
 End Class
