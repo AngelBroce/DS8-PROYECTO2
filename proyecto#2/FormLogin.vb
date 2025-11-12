@@ -11,7 +11,7 @@ Public Class FormLogin
         Me.FormBorderStyle = FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        
+
         ' Enfocar en el campo de usuario
         txtUsuario.Focus()
     End Sub
@@ -31,7 +31,7 @@ Public Class FormLogin
     Private Sub btnMostrarContrasena_Click(sender As Object, e As EventArgs) Handles btnMostrarContrasena.Click
         ' Alternar visibilidad de la contraseña
         mostrandoContrasena = Not mostrandoContrasena
-        
+
         If mostrandoContrasena Then
             ' Mostrar contraseña
             txtContrasena.PasswordChar = Chr(0)
@@ -81,7 +81,7 @@ Public Class FormLogin
 
                         ' Guardar el ID de usuario en una variable global o variable de aplicación (opcional)
                         ' Por ahora, simplemente abrimos el formulario principal
-                        
+
                         ' Abrir FormCheques
                         Dim mainForm As New FormCheques()
                         mainForm.Show()
@@ -107,5 +107,9 @@ Public Class FormLogin
         If Me.Visible Then
             Application.Exit()
         End If
+    End Sub
+
+    Private Sub PanelBandera_Paint(sender As Object, e As PaintEventArgs) Handles PanelBandera.Paint
+
     End Sub
 End Class
