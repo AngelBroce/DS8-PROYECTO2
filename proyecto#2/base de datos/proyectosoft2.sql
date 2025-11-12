@@ -21,6 +21,10 @@ SET time_zone = "+00:00";
 -- Base de datos: `proyectosoft2`
 --
 
+-- Crear la base de datos si no existe
+CREATE DATABASE IF NOT EXISTS `proyectosoft2`;
+USE `proyectosoft2`;
+
 -- --------------------------------------------------------
 
 --
