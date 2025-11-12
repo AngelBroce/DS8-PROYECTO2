@@ -31,27 +31,11 @@ Public Class FormDepositos
     End Sub
 
     Private Sub FormDepositos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Selecciona por defecto "Depósito Directo"
-        RadioButton2.Checked = True
-        ToggleNumeroCuenta()
+
         CargarDepositos()
     End Sub
 
-    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
-        ToggleNumeroCuenta()
-    End Sub
-
-    Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton2.CheckedChanged
-        ToggleNumeroCuenta()
-    End Sub
-
-    Private Sub ToggleNumeroCuenta()
-        ' Mostrar solo si es Transferencia
-        Dim visible As Boolean = RadioButton1.Checked
-        lblNumeroCuenta.Visible = visible
-        numerocuentatxt.Visible = visible
-        If Not visible Then numerocuentatxt.Clear()
-    End Sub
+    ' Eliminado manejo de número de cuenta; ya no se ocultan/validan controles.
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim tipo As String = If(RadioButton1.Checked, "Transferencia", "Deposito Directo")
@@ -65,34 +49,22 @@ Public Class FormDepositos
         End If
 
         Dim descripcion As Object = DBNull.Value
-        If RadioButton1.Checked Then
-            If String.IsNullOrWhiteSpace(numerocuentatxt.Text) Then
-                MessageBox.Show("Ingrese el número de cuenta para la transferencia.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                numerocuentatxt.Focus()
-                Return
-            End If
-            ' La tabla no tiene columna NumeroCuenta; guardamos el dato en Descripcion
-            descripcion = $"Cuenta: {numerocuentatxt.Text.Trim()}"
-        End If
 
         Try
             Using cn As New MySqlConnection(connString)
                 cn.Open()
-                Dim sql As String = "INSERT INTO depositos (Tipo, FechaOperacion, Monto, Descripcion) VALUES (@tipo, @fecha, @monto, @desc)"
+                Dim sql As String = "INSERT INTO depositos (Tipo, FechaOperacion, Monto, ) VALUES (@tipo, @fecha, @monto)"
                 Using cmd As New MySqlCommand(sql, cn)
                     cmd.Parameters.Add("@tipo", MySqlDbType.VarChar).Value = tipo
                     cmd.Parameters.Add("@fecha", MySqlDbType.Date).Value = fecha
                     cmd.Parameters.Add("@monto", MySqlDbType.Decimal).Value = monto
-                    cmd.Parameters.Add("@desc", MySqlDbType.VarChar).Value = descripcion
                     cmd.ExecuteNonQuery()
                 End Using
             End Using
 
             ' Limpiar y recargar
             TextBox1.Clear()
-            numerocuentatxt.Clear()
             RadioButton2.Checked = True
-            ToggleNumeroCuenta()
             CargarDepositos()
 
             MessageBox.Show("Depósito registrado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -105,7 +77,7 @@ Public Class FormDepositos
         Try
             Using cn As New MySqlConnection(connString)
                 Dim dt As New DataTable()
-                Using da As New MySqlDataAdapter("SELECT DepositoID, Tipo, FechaOperacion, Monto, Descripcion, FechaRegistro FROM depositos ORDER BY DepositoID DESC", cn)
+                Using da As New MySqlDataAdapter("SELECT DepositoID, Tipo, FechaOperacion, Monto, FechaRegistro FROM depositos ORDER BY DepositoID DESC", cn)
                     da.Fill(dt)
                 End Using
                 DataGridView1.DataSource = dt
