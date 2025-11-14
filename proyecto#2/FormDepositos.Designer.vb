@@ -52,24 +52,28 @@ Partial Class FormDepositos
         MenuStrip1.Size = New Size(880, 27)
         MenuStrip1.TabIndex = 1
         MenuStrip1.Text = "menuStrip1"
+        MenuStrip1.BackColor = Color.FromArgb(240, 240, 240)
         ' 
         ' mnuCheques
         ' 
         mnuCheques.Name = "mnuCheques"
         mnuCheques.Size = New Size(76, 23)
-        mnuCheques.Text = "Cheques"
+        mnuCheques.Text = "📋 Cheques"
+        mnuCheques.ForeColor = Color.FromArgb(0, 51, 102)
         ' 
         ' mnuDepositos
         ' 
         mnuDepositos.Name = "mnuDepositos"
         mnuDepositos.Size = New Size(84, 23)
-        mnuDepositos.Text = "Depósitos"
+        mnuDepositos.Text = "💰 Depósitos"
+        mnuDepositos.ForeColor = Color.FromArgb(0, 100, 0)
         ' 
         ' mnuConciliacion
         ' 
         mnuConciliacion.Name = "mnuConciliacion"
         mnuConciliacion.Size = New Size(95, 23)
-        mnuConciliacion.Text = "Conciliación"
+        mnuConciliacion.Text = "✓ Conciliación"
+        mnuConciliacion.ForeColor = Color.FromArgb(153, 76, 0)
         ' 
         ' ToolStripSeparator1
         ' 
@@ -80,7 +84,8 @@ Partial Class FormDepositos
         ' 
         mnuCerrarSesion.Name = "mnuCerrarSesion"
         mnuCerrarSesion.Size = New Size(104, 23)
-        mnuCerrarSesion.Text = "Cerrar sesión"
+        mnuCerrarSesion.Text = "🚪 Cerrar sesión"
+        mnuCerrarSesion.ForeColor = Color.FromArgb(153, 0, 0)
         ' 
         ' ToolStripSeparator2
         ' 
@@ -91,7 +96,8 @@ Partial Class FormDepositos
         ' 
         mnuSalir.Name = "mnuSalir"
         mnuSalir.Size = New Size(48, 23)
-        mnuSalir.Text = "Salir"
+        mnuSalir.Text = "❌ Salir"
+        mnuSalir.ForeColor = Color.FromArgb(204, 0, 0)
         ' 
         ' RadioButton1
         ' 

@@ -80,24 +80,28 @@ Partial Class FormConciliacion
         MenuStrip1.Size = New Size(1239, 27)
         MenuStrip1.TabIndex = 1
         MenuStrip1.Text = "menuStrip1"
+        MenuStrip1.BackColor = Color.FromArgb(240, 240, 240)
         ' 
         ' mnuCheques
         ' 
         mnuCheques.Name = "mnuCheques"
         mnuCheques.Size = New Size(65, 23)
-        mnuCheques.Text = "Cheques"
+        mnuCheques.Text = "📋 Cheques"
+        mnuCheques.ForeColor = Color.FromArgb(0, 51, 102)
         ' 
         ' mnuDepositos
         ' 
         mnuDepositos.Name = "mnuDepositos"
         mnuDepositos.Size = New Size(71, 23)
-        mnuDepositos.Text = "Depósitos"
+        mnuDepositos.Text = "💰 Depósitos"
+        mnuDepositos.ForeColor = Color.FromArgb(0, 100, 0)
         ' 
         ' mnuConciliacion
         ' 
         mnuConciliacion.Name = "mnuConciliacion"
         mnuConciliacion.Size = New Size(85, 23)
-        mnuConciliacion.Text = "Conciliación"
+        mnuConciliacion.Text = "✓ Conciliación"
+        mnuConciliacion.ForeColor = Color.FromArgb(153, 76, 0)
         ' 
         ' ToolStripSeparator1
         ' 
@@ -108,7 +112,8 @@ Partial Class FormConciliacion
         ' 
         mnuCerrarSesion.Name = "mnuCerrarSesion"
         mnuCerrarSesion.Size = New Size(104, 23)
-        mnuCerrarSesion.Text = "Cerrar sesión"
+        mnuCerrarSesion.Text = "🚪 Cerrar sesión"
+        mnuCerrarSesion.ForeColor = Color.FromArgb(153, 0, 0)
         ' 
         ' ToolStripSeparator2
         ' 
