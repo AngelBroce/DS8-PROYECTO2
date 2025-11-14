@@ -20,6 +20,10 @@ Public Class FormLogin
         ValidarLogin()
     End Sub
 
+    Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
+        Application.Exit()
+    End Sub
+
     Private Sub txtContrasena_KeyDown(sender As Object, e As KeyEventArgs) Handles txtContrasena.KeyDown
         ' Permitir entrar con la tecla Enter
         If e.KeyCode = Keys.Return Then

@@ -26,6 +26,7 @@ Partial Class FormLogin
         PanelDerecho = New Panel()
         PanelFormulario = New Panel()
         LabelVersion = New Label()
+        btnSalir = New Button()
         btnIngresar = New Button()
         PanelContrasena = New Panel()
         btnMostrarContrasena = New Button()
@@ -74,6 +75,7 @@ Partial Class FormLogin
         ' PanelFormulario
         ' 
         PanelFormulario.Controls.Add(LabelVersion)
+        PanelFormulario.Controls.Add(btnSalir)
         PanelFormulario.Controls.Add(btnIngresar)
         PanelFormulario.Controls.Add(PanelContrasena)
         PanelFormulario.Controls.Add(LabelContrasena)
@@ -116,6 +118,22 @@ Partial Class FormLogin
         btnIngresar.TabIndex = 6
         btnIngresar.Text = "ACCEDER A MI CUENTA"
         btnIngresar.UseVisualStyleBackColor = False
+        ' 
+        ' btnSalir
+        ' 
+        btnSalir.BackColor = Color.FromArgb(CByte(204), CByte(0), CByte(0))
+        btnSalir.Cursor = Cursors.Hand
+        btnSalir.FlatAppearance.BorderSize = 0
+        btnSalir.FlatStyle = FlatStyle.Flat
+        btnSalir.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        btnSalir.ForeColor = Color.White
+        btnSalir.Location = New Point(47, 583)
+        btnSalir.Margin = New Padding(4, 4, 4, 4)
+        btnSalir.Name = "btnSalir"
+        btnSalir.Size = New Size(507, 50)
+        btnSalir.TabIndex = 7
+        btnSalir.Text = "❌ SALIR"
+        btnSalir.UseVisualStyleBackColor = False
         ' 
         ' PanelContrasena
         ' 
@@ -299,6 +317,7 @@ Partial Class FormLogin
     Friend WithEvents LabelContrasena As Label
     Friend WithEvents txtContrasena As TextBox
     Friend WithEvents btnIngresar As Button
+    Friend WithEvents btnSalir As Button
     Friend WithEvents LabelVersion As Label
     Friend WithEvents PanelBandera As Panel
     Friend WithEvents LabelBancoInfo As Label
