@@ -26,6 +26,13 @@ Public Class FormDepositos
         Me.Close()
     End Sub
 
+    Private Sub mnuCerrarSesion_Click(sender As Object, e As EventArgs) Handles mnuCerrarSesion.Click
+        ' Cerrar sesión y volver al login
+        Dim loginForm As New FormLogin()
+        loginForm.Show()
+        Me.Close()
+    End Sub
+
     Private Sub mnuSalir_Click(sender As Object, e As EventArgs) Handles mnuSalir.Click
         Application.Exit()
     End Sub

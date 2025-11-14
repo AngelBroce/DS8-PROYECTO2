@@ -8,6 +8,8 @@ Partial Class FormDepositos
     Friend WithEvents mnuDepositos As ToolStripMenuItem
     Friend WithEvents mnuConciliacion As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents mnuCerrarSesion As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents mnuSalir As ToolStripMenuItem
 
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -28,6 +30,8 @@ Partial Class FormDepositos
         mnuDepositos = New ToolStripMenuItem()
         mnuConciliacion = New ToolStripMenuItem()
         ToolStripSeparator1 = New ToolStripSeparator()
+        mnuCerrarSesion = New ToolStripMenuItem()
+        ToolStripSeparator2 = New ToolStripSeparator()
         mnuSalir = New ToolStripMenuItem()
         RadioButton1 = New RadioButton()
         RadioButton2 = New RadioButton()
@@ -43,7 +47,7 @@ Partial Class FormDepositos
         ' MenuStrip1
         ' 
         MenuStrip1.ImageScalingSize = New Size(18, 18)
-        MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuSalir})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuCerrarSesion, ToolStripSeparator2, mnuSalir})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
         MenuStrip1.Size = New Size(880, 27)
@@ -72,6 +76,17 @@ Partial Class FormDepositos
         ' 
         ToolStripSeparator1.Name = "ToolStripSeparator1"
         ToolStripSeparator1.Size = New Size(6, 23)
+        ' 
+        ' mnuCerrarSesion
+        ' 
+        mnuCerrarSesion.Name = "mnuCerrarSesion"
+        mnuCerrarSesion.Size = New Size(104, 23)
+        mnuCerrarSesion.Text = "Cerrar sesión"
+        ' 
+        ' ToolStripSeparator2
+        ' 
+        ToolStripSeparator2.Name = "ToolStripSeparator2"
+        ToolStripSeparator2.Size = New Size(6, 23)
         ' 
         ' mnuSalir
         ' 
@@ -184,4 +199,5 @@ Partial Class FormDepositos
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Button1 As Button
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
 End Class

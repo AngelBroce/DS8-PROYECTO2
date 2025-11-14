@@ -8,6 +8,8 @@ Partial Class FormCheques
     Friend WithEvents mnuDepositos As ToolStripMenuItem
     Friend WithEvents mnuConciliacion As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents mnuCerrarSesion As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents mnuSalir As ToolStripMenuItem
 
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -28,6 +30,8 @@ Partial Class FormCheques
         mnuDepositos = New ToolStripMenuItem()
         mnuConciliacion = New ToolStripMenuItem()
         ToolStripSeparator1 = New ToolStripSeparator()
+        mnuCerrarSesion = New ToolStripMenuItem()
+        ToolStripSeparator2 = New ToolStripSeparator()
         mnuSalir = New ToolStripMenuItem()
         lblNumero = New Label()
         lblFecha = New Label()
@@ -55,7 +59,7 @@ Partial Class FormCheques
         ' MenuStrip1
         ' 
         MenuStrip1.ImageScalingSize = New Size(18, 18)
-        MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuSalir})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuCerrarSesion, ToolStripSeparator2, mnuSalir})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
         MenuStrip1.Size = New Size(1239, 27)
@@ -84,6 +88,17 @@ Partial Class FormCheques
         ' 
         ToolStripSeparator1.Name = "ToolStripSeparator1"
         ToolStripSeparator1.Size = New Size(6, 23)
+        ' 
+        ' mnuCerrarSesion
+        ' 
+        mnuCerrarSesion.Name = "mnuCerrarSesion"
+        mnuCerrarSesion.Size = New Size(104, 23)
+        mnuCerrarSesion.Text = "Cerrar sesión"
+        ' 
+        ' ToolStripSeparator2
+        ' 
+        ToolStripSeparator2.Name = "ToolStripSeparator2"
+        ToolStripSeparator2.Size = New Size(6, 23)
         ' 
         ' mnuSalir
         ' 
@@ -320,4 +335,5 @@ Partial Class FormCheques
     Friend WithEvents btnChequesGirados As Button
     Friend WithEvents btnAgregarProveedor As Button
     Friend WithEvents dgvCheques As DataGridView
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
 End Class

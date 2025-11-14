@@ -3,14 +3,14 @@ Partial Class FormConciliacion
     Inherits System.Windows.Forms.Form
 
     Private components As System.ComponentModel.IContainer
-        Friend WithEvents MenuStrip1 As MenuStrip
-        Friend WithEvents mnuCheques As ToolStripMenuItem
-        Friend WithEvents mnuDepositos As ToolStripMenuItem
-        Friend WithEvents mnuConciliacion As ToolStripMenuItem
-        Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
-        Friend WithEvents mnuSalir As ToolStripMenuItem
-
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents mnuCheques As ToolStripMenuItem
+    Friend WithEvents mnuDepositos As ToolStripMenuItem
+    Friend WithEvents mnuConciliacion As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents mnuCerrarSesion As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents mnuSalir As ToolStripMenuItem    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -28,6 +28,8 @@ Partial Class FormConciliacion
         mnuDepositos = New ToolStripMenuItem()
         mnuConciliacion = New ToolStripMenuItem()
         ToolStripSeparator1 = New ToolStripSeparator()
+        mnuCerrarSesion = New ToolStripMenuItem()
+        ToolStripSeparator2 = New ToolStripSeparator()
         mnuSalir = New ToolStripMenuItem()
         GroupBox1 = New GroupBox()
         btnRegistrar = New Button()
@@ -71,10 +73,10 @@ Partial Class FormConciliacion
         ' MenuStrip1
         ' 
         MenuStrip1.ImageScalingSize = New Size(18, 18)
-        MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuSalir})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {mnuCheques, mnuDepositos, mnuConciliacion, ToolStripSeparator1, mnuCerrarSesion, ToolStripSeparator2, mnuSalir})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Size = New Size(878, 27)
+        MenuStrip1.Size = New Size(1239, 27)
         MenuStrip1.TabIndex = 1
         MenuStrip1.Text = "menuStrip1"
         ' 
@@ -101,10 +103,21 @@ Partial Class FormConciliacion
         ToolStripSeparator1.Name = "ToolStripSeparator1"
         ToolStripSeparator1.Size = New Size(6, 23)
         ' 
+        ' mnuCerrarSesion
+        ' 
+        mnuCerrarSesion.Name = "mnuCerrarSesion"
+        mnuCerrarSesion.Size = New Size(104, 23)
+        mnuCerrarSesion.Text = "Cerrar sesión"
+        ' 
+        ' ToolStripSeparator2
+        ' 
+        ToolStripSeparator2.Name = "ToolStripSeparator2"
+        ToolStripSeparator2.Size = New Size(6, 23)
+        ' 
         ' mnuSalir
         ' 
         mnuSalir.Name = "mnuSalir"
-        mnuSalir.Size = New Size(41, 23)
+        mnuSalir.Size = New Size(48, 23)
         mnuSalir.Text = "Salir"
         ' 
         ' GroupBox1
@@ -504,4 +517,5 @@ Partial Class FormConciliacion
     Friend WithEvents Label17 As Label
     Friend WithEvents Label18 As Label
     Friend WithEvents btnRegistrar As Button
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
 End Class
