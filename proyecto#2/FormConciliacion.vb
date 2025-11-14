@@ -281,5 +281,8 @@ Public Class FormConciliacion
         AplicarFechasEnEtiquetas()
         CargarDatosDesdeBD()
     End Sub
+
+    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
+        AplicarFechasEnEtiquetas()
+    End Sub
 End Class
-'' Eliminada definición parcial duplicada; los handlers están en la clase principal arriba.

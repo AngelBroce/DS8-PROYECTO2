@@ -9,8 +9,9 @@ Partial Class FormConciliacion
     Friend WithEvents mnuConciliacion As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents mnuCerrarSesion As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
-    Friend WithEvents mnuSalir As ToolStripMenuItem    <System.Diagnostics.DebuggerNonUserCode()> _
+    Friend WithEvents mnuSalir As ToolStripMenuItem
+
+    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then

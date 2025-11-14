@@ -9,7 +9,6 @@ Partial Class FormCheques
     Friend WithEvents mnuConciliacion As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents mnuCerrarSesion As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents mnuSalir As ToolStripMenuItem
 
     <System.Diagnostics.DebuggerNonUserCode()> _
